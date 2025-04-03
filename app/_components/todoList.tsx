@@ -2,13 +2,14 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ClipboardList, Plus, X, CheckCircle2, Circle } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useTasks } from "@/hooks/useTasks" // Import your new hook
 
 interface Task {
   id: number
@@ -17,38 +18,25 @@ interface Task {
 }
 
 export default function TodoList() {
-  const [tasks, setTasks] = useState<Task[]>([
+  const initialTasks: Task[] = [
     { id: 1, text: "task 1", completed: false },
     { id: 2, text: "task 2", completed: false },
     { id: 3, text: "a completed task", completed: true },
-  ])
+  ]
+
+  const { tasks, addTask, deleteTask, toggleTaskCompletion, isLoaded } = useTasks(initialTasks)
   const [newTask, setNewTask] = useState("")
-  const [nextId, setNextId] = useState(4)
-  const [isLoaded, setIsLoaded] = useState(false)
 
-  useEffect(() => {
-    setIsLoaded(true)
-  }, [])
-
-  const addTask = () => {
+  const handleAddTask = () => {
     if (newTask.trim() !== "") {
-      setTasks([...tasks, { id: nextId, text: newTask, completed: false }])
-      setNextId(nextId + 1)
+      addTask(newTask)
       setNewTask("")
     }
   }
 
-  const deleteTask = (id: number) => {
-    setTasks(tasks.filter((task) => task.id !== id))
-  }
-
-  const toggleTaskCompletion = (id: number) => {
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)))
-  }
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      addTask()
+      handleAddTask()
     }
   }
 
@@ -132,7 +120,7 @@ export default function TodoList() {
                 onKeyDown={handleKeyDown}
                 className="border-indigo-200 focus-visible:ring-indigo-500"
               />
-              <Button onClick={addTask} className="bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer">
+              <Button onClick={handleAddTask} className="bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer">
                 <Plus className="h-4 w-4 mr-1" />
                 Add
               </Button>
