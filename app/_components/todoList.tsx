@@ -18,11 +18,7 @@ interface Task {
 }
 
 export default function TodoList() {
-  const initialTasks: Task[] = [
-    { id: 1, text: "task 1", completed: false },
-    { id: 2, text: "task 2", completed: false },
-    { id: 3, text: "a completed task", completed: true },
-  ]
+  const initialTasks: Task[] = []
 
   const { tasks, addTask, deleteTask, toggleTaskCompletion, isLoaded } = useTasks(initialTasks)
   const [newTask, setNewTask] = useState("")
@@ -53,7 +49,7 @@ export default function TodoList() {
         <Card className="border-none shadow-xl bg-white/90 backdrop-blur-sm">
           <CardHeader className="pb-2 border-b border-indigo-200">
             <CardTitle className="text-2xl font-bold flex items-center gap-2 text-indigo-700">
-              <ClipboardList className="h-6 w-6 text-indigo-500" />
+              <ClipboardList className="h-6 w-6 text-indigo-700" />
               My To Do List
               <Badge variant="outline" className="ml-auto bg-indigo-100 text-indigo-700 hover:bg-indigo-200">
                 {completedCount}/{tasks.length} done
@@ -76,7 +72,7 @@ export default function TodoList() {
                       <div className="flex items-center gap-3 flex-1">
                         <button
                           onClick={() => toggleTaskCompletion(task.id)}
-                          className="text-indigo-500 hover:text-indigo-700 transition-colors cursor-pointer"
+                          className="text-indigo-500 hover:text-indigo-800 transition-colors cursor-pointer"
                         >
                           {task.completed ? (
                             <CheckCircle2 className="h-5 w-5 text-green-500" />

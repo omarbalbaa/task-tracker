@@ -15,7 +15,6 @@ export function useTasks(initialTasks: Task[] = []) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    // Try to load tasks from localStorage
     const storedTasks = localStorage.getItem("tasks")
     if (storedTasks) {
       const parsedTasks = JSON.parse(storedTasks) as Task[]
